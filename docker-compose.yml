@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  squid-proxy:
+    image: ubuntu/squid:latest
+    container_name: squid-proxy
+    ports:
+      - "3128:3128"
+    volumes:
+      - ./squid.conf:/etc/squid/squid.conf
+      - ./passwd:/etc/squid/passwd
+      - ./resolv.conf:/etc/resolv.conf:ro
+    restart: unless-stopped
+    networks:
+      - proxy-network
+    depends_on:
+      - cloudflared
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: proxy-dns
+    environment:
+      - "TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
+      - "TUNNEL_DNS_PORT=53"
+      - "TUNNEL_DNS_ADDRESS=0.0.0.0"
+    ports:
+      - "53:53/udp"
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
