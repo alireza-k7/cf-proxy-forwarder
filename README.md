@@ -18,6 +18,7 @@ sudo vim /etc/netplan/01-netcfg.yaml
 nameservers:
   addresses: [1.1.1.1, 1.0.0.1]
 netplan apply
+---
 
 ## 🚀 Run This Project
 
@@ -28,3 +29,4 @@ git clone https://github.com/alireza-k7/cf-proxy-forwarder.git
 cd cf-proxy-forwarder
 chmod +x setup-proxy.sh
 ./setup-proxy.sh
+---
