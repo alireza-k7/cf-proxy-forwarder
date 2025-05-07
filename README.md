@@ -12,7 +12,8 @@ A Docker-based proxy forwarding service that routes outbound HTTP(S) traffic thr
 ### On Ubuntu:
 
 Edit the Netplan or systemd-resolved config (example for Netplan):
+
+```bash
+sudo vim /etc/netplan/01-netcfg.yaml
 nameservers:
   addresses: [1.1.1.1, 1.0.0.1]
-```bash
-sudo nano /etc/netplan/01-netcfg.yaml
